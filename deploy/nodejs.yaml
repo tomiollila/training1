@@ -1,16 +1,4 @@
-# nodejs.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: nodejs-service
-spec:
- selector:
-    app:  nodejs
- ports:
-  - name: http
-    port: 8080
-    protocol: TCP
----
+#nodejs.yaml
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
