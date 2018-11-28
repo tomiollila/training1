@@ -3,8 +3,8 @@ node {
 
 stage('Preparation') {
       //Installing kubectl in Jenkins agent
-      //sh 'curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl'
-  //sh 'chmod +x ./kubectl && mv kubectl /usr/local/sbin'
+      sh 'curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl'
+  sh 'chmod +x ./kubectl && mv kubectl /usr/local/sbin'
 
 //Clone git repository
 //git url:'https://bitbucket.org/advatys/jenkins-pipeline.git'
@@ -37,7 +37,7 @@ stage('Integration') {
         }
     else{
                 //Executing tests 
-     sh "chmod +x tests/integration-tests.sh && ./tests/integration-tests.sh ${ip}"
+     sh "chmod +x /home/jenkins/workspace/training-jenkins-kubernetes/tests/integration-tests.sh && /home/jenkins/workspace/training-jenkins-kubernetes/tests/integration-tests.sh ${ip}"
   
      //Cleaning the integration environment
      println("Cleaning integration environment...")
