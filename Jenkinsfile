@@ -38,3 +38,4 @@ stage('Integration') {
     else{
                 //Executing tests 
      sh "chmod +x tests/integration-tests.sh && ./tests/integration-tests.sh ${ip}"
+}
