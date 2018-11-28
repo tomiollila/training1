@@ -13,7 +13,7 @@ stage('Preparation') {
 
 stage('Integration') {
  
-      withKubeConfig([credentialsId: 'jenkins-deployer-credentials', serverUrl: 'https://kubernetes.default']){ 
+      withKubeConfig([credentialsId: 'jenkins-deploy1', serverUrl: 'https://kubernetes.default']){ 
         //sh 'kubectl create cm nodejs-app --from-file=src/ --namespace=castorlabsdev -o=yaml --dry-run > deploy/cm.yaml'
           sh 'kubectl apply -f /home/jenkins/workspace/training-jenkins-kubernetes/deploy/nodejs.yaml --namespace=castorlabsdev'
          sh 'kubectl apply -f /home/jenkins/workspace/training-jenkins-kubernetes/deploy/nginx-reverseproxy.yaml --namespace=castorlabsdev'
