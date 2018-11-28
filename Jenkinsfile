@@ -13,9 +13,9 @@ stage('Preparation') {
 
 stage('Integration') {
  
-      //withKubeConfig([credentialsId: 'jenkins-deployer-credentials', serverUrl: 'https://api.infra.caasp.local:6443']){ 
+      withKubeConfig([credentialsId: 'jenkins-deployer-credentials', serverUrl: 'https://kubernetes.default']){ 
         //sh 'kubectl create cm nodejs-app --from-file=src/ --namespace=castorlabsdev -o=yaml --dry-run > deploy/cm.yaml'
-      { sh 'kubectl apply -f /home/jenkins/workspace/training-jenkins-kubernetes/deploy/nodejs.yaml --namespace=castorlabsdev'
+          sh 'kubectl apply -f /home/jenkins/workspace/training-jenkins-kubernetes/deploy/nodejs.yaml --namespace=castorlabsdev'
          sh 'kubectl apply -f /home/jenkins/workspace/training-jenkins-kubernetes/deploy/nginx-reverseproxy.yaml --namespace=castorlabsdev'
          try{
           //Gathering Node.js app's external IP address
