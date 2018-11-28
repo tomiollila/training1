@@ -38,4 +38,20 @@ stage('Integration') {
     else{
                 //Executing tests 
      sh "chmod +x tests/integration-tests.sh && ./tests/integration-tests.sh ${ip}"
+  
+     //Cleaning the integration environment
+     println("Cleaning integration environment...")
+     //sh 'kubectl delete -f deploy --namespace=castorlabsdev'
+         println("Integration stage finished.")   
+    }                      
+      
+         }
+    catch(Exception e) {
+     println("Integration stage failed.")
+      println("Cleaning integration environment...")
+      //sh 'kubectl delete -f deploy --namespace=castorlabsdev'
+          error("Exiting...")                                     
+         }
+
 }
+   }
