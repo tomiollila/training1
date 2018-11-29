@@ -4,12 +4,12 @@ pipeline {
     stage('Prepare') {
       steps {
         checkout([$class: 'GitSCM',
-                                            branches: [[name: "origin/${BRANCH_PATTERN}"]],
-                                            doGenerateSubmoduleConfigurations: false,
-                                            extensions: [[$class: 'LocalBranch']],
-                                            submoduleCfg: [],
-                                            userRemoteConfigs: [[
-                                                      url: 'https://github.com/tomiollila/training1.git']]])
+                                                    branches: [[name: "origin/${BRANCH_PATTERN}"]],
+                                                    doGenerateSubmoduleConfigurations: false,
+                                                    extensions: [[$class: 'LocalBranch']],
+                                                    submoduleCfg: [],
+                                                    userRemoteConfigs: [[
+                                                                url: 'https://github.com/tomiollila/training1.git']]])
           sh 'curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl'
           sh 'chmod +x ./kubectl && mv kubectl /usr/local/sbin'
           git(url: 'https://github.com/tomiollila/training1.git', branch: 'master')
@@ -25,8 +25,8 @@ pipeline {
         }
         steps {
           withKubeConfig(credentialsId: 'jenkins-deploy1', serverUrl: 'https://kubernetes.default') {
-            sh 'kubectl apply -f /home/jenkins/workspace/training-jenkins-kubernetes/deploy/nodejs.yaml --namespace=castorlabsdev'
-            sh 'kubectl apply -f /home/jenkins/workspace/training-jenkins-kubernetes/deploy/nginx-reverseproxy.yaml --namespace=castorlabsdev'
+            sh 'kubectl apply -f /home/jenkins/workspace/training1/deploy/nodejs.yaml --namespace=castorlabsdev'
+            sh 'kubectl apply -f /home/jenkins/workspace/training1/deploy/nginx-reverseproxy.yaml --namespace=castorlabsdev'
           }
 
         }
