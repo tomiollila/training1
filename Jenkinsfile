@@ -1,5 +1,16 @@
 pipeline {
     agent any
+    parameters {
+        string (
+            defaultValue: '*',
+            description: '',
+            name : 'BRANCH_PATTERN')
+        booleanParam (
+            defaultValue: false,
+            description: '',
+            name : 'FORCE_FULL_BUILD')
+    }
+stages {
 stage('Preparation') {
       //Installing kubectl in Jenkins agent
       sh 'curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl'
@@ -81,4 +92,5 @@ sh 'kubectl apply -f deploy/ --namespace=castorlabsdev'
           }                                    
       }
    }
+}
 }
