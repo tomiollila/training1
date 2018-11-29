@@ -11,7 +11,7 @@ stage('Integration') {
  
       withKubeConfig([credentialsId: 'jenkins-deployer-credentials', serverUrl: 'https://api.infra.caasp.local:6443']) {
       
-         sh 'kubectl create cm nodejs-app --from-file=src/ --namespace=myapp-integration -o=yaml --dry-run > deploy/cm.yaml'
+         //sh 'kubectl create cm nodejs-app --from-file=src/ --namespace=myapp-integration -o=yaml --dry-run > deploy/cm.yaml'
          sh 'kubectl apply -f deploy/ --namespace=castorlabsdev'
          try{
           //Gathering Node.js app's external IP address
