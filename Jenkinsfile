@@ -4,18 +4,18 @@ pipeline {
     stage('Prepare') {
       steps {
         checkout([$class: 'GitSCM',
-                                    branches: [[name: "origin/${BRANCH_PATTERN}"]],
-                                    doGenerateSubmoduleConfigurations: false,
-                                    extensions: [[$class: 'LocalBranch']],
-                                    submoduleCfg: [],
-                                    userRemoteConfigs: [[
-                                            url: 'https://github.com/tomiollila/training1.git']]])
+                                            branches: [[name: "origin/${BRANCH_PATTERN}"]],
+                                            doGenerateSubmoduleConfigurations: false,
+                                            extensions: [[$class: 'LocalBranch']],
+                                            submoduleCfg: [],
+                                            userRemoteConfigs: [[
+                                                      url: 'https://github.com/tomiollila/training1.git']]])
           sh 'curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl'
           sh 'chmod +x ./kubectl && mv kubectl /usr/local/sbin'
           git(url: 'https://github.com/tomiollila/training1.git', branch: 'master')
         }
       }
-      stage('Build') {
+      stage('Integration') {
         when {
           expression {
             GIT_BRANCH = 'origin/' + sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
@@ -23,22 +23,12 @@ pipeline {
           }
 
         }
-        parallel {
-          stage('linux') {
-            steps {
-              build(job: 'full-build-linux', parameters: [string(name: 'GIT_BRANCH_NAME', value: GIT_BRANCH)])
-            }
+        steps {
+          withKubeConfig(credentialsId: 'jenkins-deploy1', serverUrl: 'https://kubernetes.default') {
+            sh 'kubectl apply -f /home/jenkins/workspace/training-jenkins-kubernetes/deploy/nodejs.yaml --namespace=castorlabsdev'
+            sh 'kubectl apply -f /home/jenkins/workspace/training-jenkins-kubernetes/deploy/nginx-reverseproxy.yaml --namespace=castorlabsdev'
           }
-          stage('mac') {
-            steps {
-              build(job: 'full-build-mac', parameters: [string(name: 'GIT_BRANCH_NAME', value: GIT_BRANCH)])
-            }
-          }
-          stage('windows') {
-            steps {
-              build(job: 'full-build-windows', parameters: [string(name: 'GIT_BRANCH_NAME', value: GIT_BRANCH)])
-            }
-          }
+
         }
       }
       stage('Build Skipped') {
