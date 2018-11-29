@@ -16,7 +16,7 @@ stage('Integration') {
       withKubeConfig([credentialsId: 'jenkins-deploy1', serverUrl: 'https://kubernetes.default']){ 
         sh 'kubectl create cm nodejs-app --from-file=src/ --namespace=castorlabsdev -o=yaml --dry-run > deploy/cm.yaml'
           sh 'kubectl apply -f /home/jenkins/workspace/training-jenkins-kubernetes/deploy/nodejs.yaml --namespace=castorlabsdev'
-         sh 'kubectl apply -f /home/jenkins/workspace/training-jenkins-kubernetes/deploy/nginx-reverseproxy.yaml --namespace=castorlabsdev'
+         sh 'kubectl apply -f /home/jenkins/workspace/training-jenkins-kubernetes/deploy/nginx-reverseproxy.yaml --namespace=castorlabsdev'}
          //try{
           //Gathering Node.js app's external IP address
           //def ip = ''
@@ -24,15 +24,13 @@ stage('Integration') {
           //def countLimit = 10
        
           //Waiting loop for IP address provisioning
-               println("Waiting for IP address")//{        
-          //while(ip=='' && count<countLimit) {
-           sleep 30
+               println("Waiting for IP address"){        
+          //while(ip=='' && count<countLimit) 
+           sleep 30 {
            //ip = sh script: 'kubectl get svc --namespace=castorlabsdev -o jsonpath="{.items[?(@.metadata.name==\'nginx-reverseproxy-service\')].status.loadBalancer.ingress[*].ip}"', returnStdout: true
            sh 'kubectl get svc --namespace=castorlabsdev| grep nginx-reverseproxy-service| grep -o -E '[0-9]+'| grep 31'}//, returnStdout: true
             //println("$ip")//ip=ip.trim()
-           //count++                                                                              
-         //}
-        
+           //count++
     if(ip==''){
      error("Not able to get the IP address. Aborting...")
         }
