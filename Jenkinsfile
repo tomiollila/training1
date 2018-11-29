@@ -27,8 +27,9 @@ stage('Integration') {
           println("Waiting for IP address")        
           while(ip=='' && count<countLimit) {
            sleep 30
-           ip = sh script: 'kubectl get svc --namespace=castorlabsdev -o jsonpath="{.items[?(@.metadata.name==\'nginx-reverseproxy-service\')].status.loadBalancer.ingress[*].ip}"', returnStdout: true
-           ip=ip.trim()
+           //ip = sh script: 'kubectl get svc --namespace=castorlabsdev -o jsonpath="{.items[?(@.metadata.name==\'nginx-reverseproxy-service\')].status.loadBalancer.ingress[*].ip}"', returnStdout: true
+           ip = sh script: 'kubectl get svc --namespace=castorlabsdev |grep nginx-reverseproxy-service| grep -o -E '[0-9]+'| grep 3', returnStdout: true
+            ip=ip.trim()
            count++                                                                              
           }
         
