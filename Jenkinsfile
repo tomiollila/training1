@@ -19,19 +19,19 @@ stage('Integration') {
          sh 'kubectl apply -f /home/jenkins/workspace/training-jenkins-kubernetes/deploy/nginx-reverseproxy.yaml --namespace=castorlabsdev'
          try{
           //Gathering Node.js app's external IP address
-          def ip = ''
-          def count = 0
-          def countLimit = 10
+          //def ip = ''
+          //def count = 0
+          //def countLimit = 10
        
           //Waiting loop for IP address provisioning
-          println("Waiting for IP address")        
+               println("Waiting for IP address"){        
           //while(ip=='' && count<countLimit) {
            sleep 30
            //ip = sh script: 'kubectl get svc --namespace=castorlabsdev -o jsonpath="{.items[?(@.metadata.name==\'nginx-reverseproxy-service\')].status.loadBalancer.ingress[*].ip}"', returnStdout: true
-           $ip = sh 'kubectl get svc --namespace=castorlabsdev |grep nginx-reverseproxy-service| grep -o -E '[0-9]+'| grep 31', returnStdout: true
-            //ip=ip.trim()
+           def ip = sh 'kubectl get svc --namespace=castorlabsdev| grep nginx-reverseproxy-service| grep -o -E '[0-9]+'| grep 31'//, returnStdout: true
+            println("$ip")//ip=ip.trim()
            //count++                                                                              
-         // }
+         }
         
     if(ip==''){
      error("Not able to get the IP address. Aborting...")
