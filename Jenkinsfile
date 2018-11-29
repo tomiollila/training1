@@ -31,7 +31,7 @@ stage('Integration') {
            $ip = sh 'kubectl get svc --namespace=castorlabsdev |grep nginx-reverseproxy-service| grep -o -E '[0-9]+'| grep 31', returnStdout: true
             //ip=ip.trim()
            //count++                                                                              
-          }
+         // }
         
     if(ip==''){
      error("Not able to get the IP address. Aborting...")
