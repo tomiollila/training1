@@ -26,8 +26,6 @@ pipeline {
         steps {
           withKubeConfig(credentialsId: 'jenkins-deploy1', serverUrl: 'https://kubernetes.default') {
             sh '''kubectl apply -f /home/jenkins/workspace/training1_master/deploy/nodejs.yaml --namespace=castorlabsdev
-
-kubectl apply -f /home/jenkins/workspace/training-jenkins-kubernetes/deploy/nginx-reverseproxy.yaml --namespace=castorlabsdev'''
             sh 'kubectl apply -f /home/jenkins/workspace/training1_master/deploy/nginx-reverseproxy.yaml --namespace=castorlabsdev'
           }
 
