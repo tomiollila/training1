@@ -9,7 +9,7 @@ stage('Preparation') {
    }
 stage('Integration') {
  
-      withKubeConfig([credentialsId: 'jenkins-deployer-credentials', serverUrl: 'https://api.infra.caasp.local:6443']) {
+      withKubeConfig([credentialsId: 'jenkins-deploy1', serverUrl: 'https://kubernetes.default']) {
       
          //sh 'kubectl create cm nodejs-app --from-file=src/ --namespace=myapp-integration -o=yaml --dry-run > deploy/cm.yaml'
          sh 'kubectl apply -f deploy/ --namespace=castorlabsdev'
@@ -51,7 +51,7 @@ stage('Integration') {
 }
    }
  stage('Production') {
-      withKubeConfig([credentialsId: 'jenkins-deployer-credentials', serverUrl: 'https://api.infra.caasp.local:6443']) {
+      withKubeConfig([credentialsId: 'jenkins-deploy1', serverUrl: 'https://kubernetes.default']) {
       
       //sh 'kubectl create cm nodejs-app --from-file=src/ --namespace=castorlabsdev' -o=yaml --dry-run > deploy/cm.yaml'
 sh 'kubectl apply -f deploy/ --namespace=castorlabsdev'
