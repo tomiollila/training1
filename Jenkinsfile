@@ -38,7 +38,7 @@ stage('Integration') {
         }
     else{
                 //Executing tests 
-     sh 'chmod +x /home/jenkins/workspace/training-jenkins-kubernetes/tests/integration-tests.sh && /home/jenkins/workspace/training-jenkins-kubernetes/tests/integration-tests.sh ${ip}"
+     sh 'chmod +x /home/jenkins/workspace/training-jenkins-kubernetes/tests/integration-tests.sh && /home/jenkins/workspace/training-jenkins-kubernetes/tests/integration-tests.sh'
   
      //Cleaning the integration environment
      println("Cleaning integration environment...")
