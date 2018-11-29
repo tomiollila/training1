@@ -45,8 +45,8 @@ stage('Integration') {
          println("Integration stage finished.")   
     }                      
       
-         }
-    catch(Exception e) {
+               }{
+    //catch(Exception e) {
      println("Integration stage failed.")
       println("Cleaning integration environment...")
       sh 'kubectl delete deployment nginx-reverseproxy-deployment --namespace=castorlabsdev'
